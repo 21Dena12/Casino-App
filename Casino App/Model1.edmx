@@ -1,0 +1,462 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="Хранилище CasinoDBModel" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Игры">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="StartTime" Type="datetime2" Precision="7" />
+          <Property Name="EndTime" Type="datetime2" Precision="7" />
+          <Property Name="Coefficient" Type="decimal" Precision="18" Scale="2" />
+          <Property Name="Result" Type="nvarchar" MaxLength="50" />
+        </EntityType>
+        <EntityType Name="ИсторияИгр">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="UserId" Type="int" />
+          <Property Name="GameId" Type="int" />
+          <Property Name="Winnings" Type="decimal" Precision="18" Scale="2" />
+          <Property Name="PlayDate" Type="datetime2" Precision="7" />
+        </EntityType>
+        <EntityType Name="Отчеты">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="UserId" Type="int" />
+          <Property Name="Winnings" Type="decimal" Precision="18" Scale="2" />
+          <Property Name="Losses" Type="decimal" Precision="18" Scale="2" />
+          <Property Name="GeneratedDate" Type="datetime2" Precision="7" />
+        </EntityType>
+        <EntityType Name="Пользователи">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Login" Type="nvarchar" MaxLength="100" Nullable="false" />
+          <Property Name="Password" Type="nvarchar" MaxLength="100" Nullable="false" />
+          <Property Name="Role" Type="nvarchar" MaxLength="50" />
+          <Property Name="Balance" Type="decimal" Precision="18" Scale="2" />
+          <Property Name="RegistrationDate" Type="datetime2" Precision="7" />
+        </EntityType>
+        <EntityType Name="Ставки">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="UserId" Type="int" />
+          <Property Name="GameId" Type="int" />
+          <Property Name="Amount" Type="decimal" Precision="18" Scale="2" />
+          <Property Name="CoefficientAtBet" Type="decimal" Precision="18" Scale="2" />
+          <Property Name="Winnings" Type="decimal" Precision="18" Scale="2" />
+          <Property Name="BetTime" Type="datetime2" Precision="7" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Транзакции">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="UserId" Type="int" />
+          <Property Name="Type" Type="nvarchar" MaxLength="50" />
+          <Property Name="Amount" Type="decimal" Precision="18" Scale="2" />
+          <Property Name="TransactionDate" Type="datetime2" Precision="7" Nullable="false" />
+        </EntityType>
+        <Association Name="FK__ИсторияИг__GameI__47DBAE45">
+          <End Role="Игры" Type="Self.Игры" Multiplicity="0..1" />
+          <End Role="ИсторияИгр" Type="Self.ИсторияИгр" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Игры">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="ИсторияИгр">
+              <PropertyRef Name="GameId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__ИсторияИг__UserI__46E78A0C">
+          <End Role="Пользователи" Type="Self.Пользователи" Multiplicity="0..1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="ИсторияИгр" Type="Self.ИсторияИгр" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Пользователи">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="ИсторияИгр">
+              <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Отчеты__UserId__4AB81AF0">
+          <End Role="Пользователи" Type="Self.Пользователи" Multiplicity="0..1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Отчеты" Type="Self.Отчеты" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Пользователи">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Отчеты">
+              <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Ставки__GameId__403A8C7D">
+          <End Role="Игры" Type="Self.Игры" Multiplicity="0..1" />
+          <End Role="Ставки" Type="Self.Ставки" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Игры">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Ставки">
+              <PropertyRef Name="GameId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Ставки__UserId__3F466844">
+          <End Role="Пользователи" Type="Self.Пользователи" Multiplicity="0..1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Ставки" Type="Self.Ставки" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Пользователи">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Ставки">
+              <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Транзакци__UserI__4316F928">
+          <End Role="Пользователи" Type="Self.Пользователи" Multiplicity="0..1" />
+          <End Role="Транзакции" Type="Self.Транзакции" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Пользователи">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Транзакции">
+              <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="Хранилище CasinoDBModelContainer">
+          <EntitySet Name="Игры" EntityType="Self.Игры" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ИсторияИгр" EntityType="Self.ИсторияИгр" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Отчеты" EntityType="Self.Отчеты" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Пользователи" EntityType="Self.Пользователи" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Ставки" EntityType="Self.Ставки" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Транзакции" EntityType="Self.Транзакции" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK__ИсторияИг__GameI__47DBAE45" Association="Self.FK__ИсторияИг__GameI__47DBAE45">
+            <End Role="Игры" EntitySet="Игры" />
+            <End Role="ИсторияИгр" EntitySet="ИсторияИгр" />
+          </AssociationSet>
+          <AssociationSet Name="FK__ИсторияИг__UserI__46E78A0C" Association="Self.FK__ИсторияИг__UserI__46E78A0C">
+            <End Role="Пользователи" EntitySet="Пользователи" />
+            <End Role="ИсторияИгр" EntitySet="ИсторияИгр" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Отчеты__UserId__4AB81AF0" Association="Self.FK__Отчеты__UserId__4AB81AF0">
+            <End Role="Пользователи" EntitySet="Пользователи" />
+            <End Role="Отчеты" EntitySet="Отчеты" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Ставки__GameId__403A8C7D" Association="Self.FK__Ставки__GameId__403A8C7D">
+            <End Role="Игры" EntitySet="Игры" />
+            <End Role="Ставки" EntitySet="Ставки" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Ставки__UserId__3F466844" Association="Self.FK__Ставки__UserId__3F466844">
+            <End Role="Пользователи" EntitySet="Пользователи" />
+            <End Role="Ставки" EntitySet="Ставки" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Транзакци__UserI__4316F928" Association="Self.FK__Транзакци__UserI__4316F928">
+            <End Role="Пользователи" EntitySet="Пользователи" />
+            <End Role="Транзакции" EntitySet="Транзакции" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="CasinoDBModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="Игры">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="StartTime" Type="DateTime" Precision="7" />
+          <Property Name="EndTime" Type="DateTime" Precision="7" />
+          <Property Name="Coefficient" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="Result" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="ИсторияИгр" Relationship="Self.FK__ИсторияИг__GameI__47DBAE45" FromRole="Игры" ToRole="ИсторияИгр" />
+          <NavigationProperty Name="Ставки" Relationship="Self.FK__Ставки__GameId__403A8C7D" FromRole="Игры" ToRole="Ставки" />
+        </EntityType>
+        <EntityType Name="ИсторияИгр">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="UserId" Type="Int32" />
+          <Property Name="GameId" Type="Int32" />
+          <Property Name="Winnings" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="PlayDate" Type="DateTime" Precision="7" />
+          <NavigationProperty Name="Игры" Relationship="Self.FK__ИсторияИг__GameI__47DBAE45" FromRole="ИсторияИгр" ToRole="Игры" />
+          <NavigationProperty Name="Пользователи" Relationship="Self.FK__ИсторияИг__UserI__46E78A0C" FromRole="ИсторияИгр" ToRole="Пользователи" />
+        </EntityType>
+        <EntityType Name="Отчеты">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="UserId" Type="Int32" />
+          <Property Name="Winnings" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="Losses" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="GeneratedDate" Type="DateTime" Precision="7" />
+          <NavigationProperty Name="Пользователи" Relationship="Self.FK__Отчеты__UserId__4AB81AF0" FromRole="Отчеты" ToRole="Пользователи" />
+        </EntityType>
+        <EntityType Name="Пользователи">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Login" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Password" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Role" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Balance" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="RegistrationDate" Type="DateTime" Precision="7" />
+          <NavigationProperty Name="ИсторияИгр" Relationship="Self.FK__ИсторияИг__UserI__46E78A0C" FromRole="Пользователи" ToRole="ИсторияИгр" />
+          <NavigationProperty Name="Отчеты" Relationship="Self.FK__Отчеты__UserId__4AB81AF0" FromRole="Пользователи" ToRole="Отчеты" />
+          <NavigationProperty Name="Ставки" Relationship="Self.FK__Ставки__UserId__3F466844" FromRole="Пользователи" ToRole="Ставки" />
+          <NavigationProperty Name="Транзакции" Relationship="Self.FK__Транзакци__UserI__4316F928" FromRole="Пользователи" ToRole="Транзакции" />
+        </EntityType>
+        <EntityType Name="Ставки">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="UserId" Type="Int32" />
+          <Property Name="GameId" Type="Int32" />
+          <Property Name="Amount" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="CoefficientAtBet" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="Winnings" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="BetTime" Type="DateTime" Nullable="false" Precision="7" />
+          <NavigationProperty Name="Игры" Relationship="Self.FK__Ставки__GameId__403A8C7D" FromRole="Ставки" ToRole="Игры" />
+          <NavigationProperty Name="Пользователи" Relationship="Self.FK__Ставки__UserId__3F466844" FromRole="Ставки" ToRole="Пользователи" />
+        </EntityType>
+        <EntityType Name="Транзакции">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="UserId" Type="Int32" />
+          <Property Name="Type" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Amount" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="TransactionDate" Type="DateTime" Nullable="false" Precision="7" />
+          <NavigationProperty Name="Пользователи" Relationship="Self.FK__Транзакци__UserI__4316F928" FromRole="Транзакции" ToRole="Пользователи" />
+        </EntityType>
+        <Association Name="FK__ИсторияИг__GameI__47DBAE45">
+          <End Role="Игры" Type="Self.Игры" Multiplicity="0..1" />
+          <End Role="ИсторияИгр" Type="Self.ИсторияИгр" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Игры">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="ИсторияИгр">
+              <PropertyRef Name="GameId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Ставки__GameId__403A8C7D">
+          <End Role="Игры" Type="Self.Игры" Multiplicity="0..1" />
+          <End Role="Ставки" Type="Self.Ставки" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Игры">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Ставки">
+              <PropertyRef Name="GameId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__ИсторияИг__UserI__46E78A0C">
+          <End Role="Пользователи" Type="Self.Пользователи" Multiplicity="0..1" />
+          <End Role="ИсторияИгр" Type="Self.ИсторияИгр" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Пользователи">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="ИсторияИгр">
+              <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Отчеты__UserId__4AB81AF0">
+          <End Role="Пользователи" Type="Self.Пользователи" Multiplicity="0..1" />
+          <End Role="Отчеты" Type="Self.Отчеты" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Пользователи">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Отчеты">
+              <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Ставки__UserId__3F466844">
+          <End Role="Пользователи" Type="Self.Пользователи" Multiplicity="0..1" />
+          <End Role="Ставки" Type="Self.Ставки" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Пользователи">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Ставки">
+              <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Транзакци__UserI__4316F928">
+          <End Role="Пользователи" Type="Self.Пользователи" Multiplicity="0..1" />
+          <End Role="Транзакции" Type="Self.Транзакции" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Пользователи">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Транзакции">
+              <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="CasinoEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Игры" EntityType="Self.Игры" />
+          <EntitySet Name="ИсторияИгр" EntityType="Self.ИсторияИгр" />
+          <EntitySet Name="Отчеты" EntityType="Self.Отчеты" />
+          <EntitySet Name="Пользователи" EntityType="Self.Пользователи" />
+          <EntitySet Name="Ставки" EntityType="Self.Ставки" />
+          <EntitySet Name="Транзакции" EntityType="Self.Транзакции" />
+          <AssociationSet Name="FK__ИсторияИг__GameI__47DBAE45" Association="Self.FK__ИсторияИг__GameI__47DBAE45">
+            <End Role="Игры" EntitySet="Игры" />
+            <End Role="ИсторияИгр" EntitySet="ИсторияИгр" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Ставки__GameId__403A8C7D" Association="Self.FK__Ставки__GameId__403A8C7D">
+            <End Role="Игры" EntitySet="Игры" />
+            <End Role="Ставки" EntitySet="Ставки" />
+          </AssociationSet>
+          <AssociationSet Name="FK__ИсторияИг__UserI__46E78A0C" Association="Self.FK__ИсторияИг__UserI__46E78A0C">
+            <End Role="Пользователи" EntitySet="Пользователи" />
+            <End Role="ИсторияИгр" EntitySet="ИсторияИгр" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Отчеты__UserId__4AB81AF0" Association="Self.FK__Отчеты__UserId__4AB81AF0">
+            <End Role="Пользователи" EntitySet="Пользователи" />
+            <End Role="Отчеты" EntitySet="Отчеты" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Ставки__UserId__3F466844" Association="Self.FK__Ставки__UserId__3F466844">
+            <End Role="Пользователи" EntitySet="Пользователи" />
+            <End Role="Ставки" EntitySet="Ставки" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Транзакци__UserI__4316F928" Association="Self.FK__Транзакци__UserI__4316F928">
+            <End Role="Пользователи" EntitySet="Пользователи" />
+            <End Role="Транзакции" EntitySet="Транзакции" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="Хранилище CasinoDBModelContainer" CdmEntityContainer="CasinoEntities">
+          <EntitySetMapping Name="Игры">
+            <EntityTypeMapping TypeName="CasinoDBModel.Игры">
+              <MappingFragment StoreEntitySet="Игры">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="StartTime" ColumnName="StartTime" />
+                <ScalarProperty Name="EndTime" ColumnName="EndTime" />
+                <ScalarProperty Name="Coefficient" ColumnName="Coefficient" />
+                <ScalarProperty Name="Result" ColumnName="Result" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ИсторияИгр">
+            <EntityTypeMapping TypeName="CasinoDBModel.ИсторияИгр">
+              <MappingFragment StoreEntitySet="ИсторияИгр">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="UserId" ColumnName="UserId" />
+                <ScalarProperty Name="GameId" ColumnName="GameId" />
+                <ScalarProperty Name="Winnings" ColumnName="Winnings" />
+                <ScalarProperty Name="PlayDate" ColumnName="PlayDate" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Отчеты">
+            <EntityTypeMapping TypeName="CasinoDBModel.Отчеты">
+              <MappingFragment StoreEntitySet="Отчеты">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="UserId" ColumnName="UserId" />
+                <ScalarProperty Name="Winnings" ColumnName="Winnings" />
+                <ScalarProperty Name="Losses" ColumnName="Losses" />
+                <ScalarProperty Name="GeneratedDate" ColumnName="GeneratedDate" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Пользователи">
+            <EntityTypeMapping TypeName="CasinoDBModel.Пользователи">
+              <MappingFragment StoreEntitySet="Пользователи">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Login" ColumnName="Login" />
+                <ScalarProperty Name="Password" ColumnName="Password" />
+                <ScalarProperty Name="Role" ColumnName="Role" />
+                <ScalarProperty Name="Balance" ColumnName="Balance" />
+                <ScalarProperty Name="RegistrationDate" ColumnName="RegistrationDate" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Ставки">
+            <EntityTypeMapping TypeName="CasinoDBModel.Ставки">
+              <MappingFragment StoreEntitySet="Ставки">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="UserId" ColumnName="UserId" />
+                <ScalarProperty Name="GameId" ColumnName="GameId" />
+                <ScalarProperty Name="Amount" ColumnName="Amount" />
+                <ScalarProperty Name="CoefficientAtBet" ColumnName="CoefficientAtBet" />
+                <ScalarProperty Name="Winnings" ColumnName="Winnings" />
+                <ScalarProperty Name="BetTime" ColumnName="BetTime" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Транзакции">
+            <EntityTypeMapping TypeName="CasinoDBModel.Транзакции">
+              <MappingFragment StoreEntitySet="Транзакции">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="UserId" ColumnName="UserId" />
+                <ScalarProperty Name="Type" ColumnName="Type" />
+                <ScalarProperty Name="Amount" ColumnName="Amount" />
+                <ScalarProperty Name="TransactionDate" ColumnName="TransactionDate" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="Нет" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

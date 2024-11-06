@@ -1,0 +1,29 @@
+﻿<Window x:Class="Casino_App.ReportWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:lvc="clr-namespace:LiveCharts.Wpf;assembly=LiveCharts.Wpf"
+        Title="Отчеты" Height="500" Width="800"
+        WindowStartupLocation="CenterScreen">
+    <Grid>
+        <!-- Верхняя панель с фильтрами для отчетов -->
+        <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="0,20,0,0">
+            <TextBlock Text="Отчеты по пользователю:" FontSize="16" VerticalAlignment="Center" Margin="10"/>
+            <ComboBox x:Name="UserComboBox" Width="200" Height="30" Margin="10"/>
+            <Button x:Name="GenerateReportButton" Content="Сформировать отчет" Width="150" Height="30" Margin="10" Click="GenerateReportButton_Click"/>
+        </StackPanel>
+
+        <!-- Диаграмма для отображения данных -->
+        <lvc:CartesianChart x:Name="WinningsChart" HorizontalAlignment="Center" VerticalAlignment="Center" Width="700" Height="300" Margin="20">
+            <lvc:CartesianChart.Series>
+                <lvc:ColumnSeries Title="Общий в    ыигрыш" Values="{Binding TotalValues}" />
+            </lvc:CartesianChart.Series>
+            <lvc:CartesianChart.AxisX>
+                <lvc:Axis Title="Дата" Labels="{Binding GameDates}" />
+            </lvc:CartesianChart.AxisX>
+
+        </lvc:CartesianChart>
+
+        <!-- Кнопка назад -->
+        <Button x:Name="BackButton" Content="Назад" Width="100" Height="40" VerticalAlignment="Bottom" HorizontalAlignment="Left" Margin="10" Click="BackButton_Click"/>
+    </Grid>
+</Window>

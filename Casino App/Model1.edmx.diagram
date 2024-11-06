@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="970d72a30e9d4564872f0c3d170e3bd2" Name="Diagram1" ZoomLevel="64">
+        <EntityTypeShape EntityType="CasinoDBModel.Игры" Width="1.5" PointX="0.75" PointY="2.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="CasinoDBModel.ИсторияИгр" Width="1.5" PointX="3" PointY="4.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="CasinoDBModel.Отчеты" Width="1.5" PointX="3" PointY="7.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="CasinoDBModel.Пользователи" Width="1.5" PointX="0.75" PointY="5.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="CasinoDBModel.Ставки" Width="1.5" PointX="6" PointY="5.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="CasinoDBModel.Транзакции" Width="1.5" PointX="3" PointY="14.25" IsExpanded="true" />
+        <AssociationConnector Association="CasinoDBModel.FK__ИсторияИг__GameI__47DBAE45" ManuallyRouted="false" />
+        <AssociationConnector Association="CasinoDBModel.FK__Ставки__GameId__403A8C7D" ManuallyRouted="false" />
+        <AssociationConnector Association="CasinoDBModel.FK__ИсторияИг__UserI__46E78A0C" ManuallyRouted="false" />
+        <AssociationConnector Association="CasinoDBModel.FK__Отчеты__UserId__4AB81AF0" ManuallyRouted="false" />
+        <AssociationConnector Association="CasinoDBModel.FK__Ставки__UserId__3F466844" ManuallyRouted="false" />
+        <AssociationConnector Association="CasinoDBModel.FK__Транзакци__UserI__4316F928" ManuallyRouted="false" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

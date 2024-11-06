@@ -1,0 +1,26 @@
+﻿<Window x:Class="Casino_App.GameHistoryWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="История игр" Height="450" Width="800"
+        WindowStartupLocation="CenterScreen">
+    <Grid>
+        <!-- Заголовок -->
+        <StackPanel Orientation="Vertical" HorizontalAlignment="Center" VerticalAlignment="Top" Margin="0,20,0,0">
+            <TextBlock Text="История игр" FontSize="24" FontWeight="Bold" HorizontalAlignment="Center"/>
+        </StackPanel>
+
+        <!-- Таблица с историей игр -->
+        <DataGrid x:Name="GameHistoryDataGrid" AutoGenerateColumns="False" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="10,60,10,10">
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="Дата игры" Binding="{Binding PlayDate}" Width="*" />
+                <DataGridTextColumn Header="Выигрыш/Проигрыш" Binding="{Binding Winnings}" Width="*" />
+            </DataGrid.Columns>
+        </DataGrid>
+
+        <!-- Кнопка "Назад" -->
+        <StackPanel HorizontalAlignment="Left" VerticalAlignment="Bottom" Margin="10">
+            <Button x:Name="BackButton" Content="Назад" Width="100" Height="40" Click="BackButton_Click"/>
+        </StackPanel>
+    </Grid>
+</Window>
+

@@ -1,0 +1,21 @@
+﻿<Window x:Class="Casino_App.EditUserWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Редактировать пользователя" Height="300" Width="400">
+    <Grid>
+        <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
+            <TextBlock Text="Редактировать пользователя" FontSize="16" FontWeight="Bold" Margin="0,0,0,20" HorizontalAlignment="Center"/>
+            <Label Content="Логин" Width="202"/>
+            <TextBox x:Name="LoginTextBox"  Width="200" Margin="10"/>
+            <Label Content="Пароль" Width="202"/>
+            <TextBox x:Name="PasswordTextBox"  Width="200" Margin="10" />
+            <Label Content="Роль" Width="202"/>
+            <ComboBox x:Name="RoleComboBox" Width="200" Margin="10">
+                <ComboBoxItem Content="User" />
+                <ComboBoxItem Content="Admin" />
+            </ComboBox>
+
+            <Button Content="Сохранить" Width="200" Height="40" Margin="10" Click="SaveButton_Click"/>
+        </StackPanel>
+    </Grid>
+</Window>
